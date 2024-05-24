@@ -1,0 +1,49 @@
+.sudoku-container {
+  display: flex;
+  flex-direction: column;
+  width: 360px; /* Adjust the width as needed */
+  margin: 0 auto;
+  border: 2px solid black; /* Outer border */
+}
+
+.sudoku-row {
+  display: flex;
+}
+
+.sudoku-cell {
+  width: 40px; /* Adjust the cell size as needed */
+  height: 40px; /* Adjust the cell size as needed */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ddd;
+  font-size: 20px; /* Adjust the font size as needed */
+}
+
+.top-border {
+  border-top: 3px solid black;
+}
+
+.left-border {
+  border-left: 3px solid black;
+}
+
+.bottom-border {
+  border-bottom: 3px solid black;
+}
+
+.right-border {
+  border-right: 3px solid black;
+}
+
+.solve-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.message {
+  margin-top: 10px;
+  font-size: 18px;
+}

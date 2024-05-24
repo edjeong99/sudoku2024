@@ -3,7 +3,6 @@ import axios from 'axios';
 
 
 const SudokuBoard = () => {
-   
     const [board, setBoard] = useState([]);
     const [message, setMessage] = useState('');
   
@@ -11,7 +10,7 @@ const SudokuBoard = () => {
       const fetchSudoku = async () => {
         try {
           const response = await axios.get('http://localhost:5000/generate');
-          setBoard(response.data);
+          setBoard(response.data.map(row => row.map(cell => (cell !== 0 ? cell.toString() : ''))));
         } catch (error) {
           console.error('Error fetching Sudoku board:', error);
         }
@@ -20,13 +19,11 @@ const SudokuBoard = () => {
     }, []);
   
     const handleInputChange = (e, row, col) => {
-      const value = parseInt(e.target.value) || 0;
-      if (value >= 0 && value <= 9) {
-        const newBoard = board.map((r, rowIndex) =>
-          r.map((cell, colIndex) => (rowIndex === row && colIndex === col ? value : cell))
-        );
-        setBoard(newBoard);
-      }
+      const value = e.target.value.replace(/[^1-9]/g, ''); // Only allow digits 1-9
+      const newBoard = board.map((r, rowIndex) =>
+        r.map((cell, colIndex) => (rowIndex === row && colIndex === col ? value : cell))
+      );
+      setBoard(newBoard);
     };
   
     const handleSolveClick = () => {
@@ -39,13 +36,14 @@ const SudokuBoard = () => {
         {board.map((row, rowIndex) => (
           <div className="sudoku-row" key={rowIndex}>
             {row.map((cell, colIndex) => (
-              <input
-                type="text"
-                className={`sudoku-cell ${getBorderClass(rowIndex, colIndex)}`}
-                key={colIndex}
-                value={cell !== 0 ? cell : ''}
-                onChange={(e) => handleInputChange(e, rowIndex, colIndex)}
-              />
+              <div className={`sudoku-cell ${getBorderClass(rowIndex, colIndex)}`} key={colIndex}>
+                <input
+                  type="text"
+                  value={cell}
+                  className={cell.length > 1 ? 'multi-numbers' : ''}
+                  onChange={(e) => handleInputChange(e, rowIndex, colIndex)}
+                />
+              </div>
             ))}
           </div>
         ))}
@@ -67,11 +65,11 @@ const SudokuBoard = () => {
   const checkSudokuSolution = (board) => {
     // Helper function to check if a board is solved correctly
     const isValidRow = (row) => {
-      const nums = row.filter(n => n !== 0);
+      const nums = row.filter(n => n.length === 1 && n !== '0');
       return new Set(nums).size === nums.length;
     };
     const isValidCol = (board, colIndex) => {
-      const nums = board.map(row => row[colIndex]).filter(n => n !== 0);
+      const nums = board.map(row => row[colIndex]).filter(n => n.length === 1 && n !== '0');
       return new Set(nums).size === nums.length;
     };
   
@@ -80,7 +78,7 @@ const SudokuBoard = () => {
       for (let row = 0; row < 3; row++) {
         for (let col = 0; col < 3; col++) {
           const num = board[startRow + row][startCol + col];
-          if (num !== 0) nums.push(num);
+          if (num.length === 1 && num !== '0') nums.push(num);
         }
       }
       return new Set(nums).size === nums.length;
@@ -98,6 +96,4 @@ const SudokuBoard = () => {
   
     return true;
   };
-       
-
 export default SudokuBoard;

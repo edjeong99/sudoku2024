@@ -1,13 +1,56 @@
+/* App styles */
+.app-container {
+  display: flex;
+  flex-direction: row;
+}
+
+#main {
+  flex-grow: 1;
+  margin-left: 250px;
+  padding: 16px;
+  transition: margin-left 0.3s;
+}
+
+#main.sidebar-open {
+  margin-left: 0;
+}
+
+.menu-icon {
+  font-size: 30px;
+  cursor: pointer;
+  display: none;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+}
+
+@media screen and (max-width: 768px) {
+  #main {
+    margin-left: 0;
+  }
+
+  .menu-icon {
+    display: block;
+  }
+}
 
 
+
+
+/* Sudoku board styles */
 .sudoku-container {
   display: flex;
   flex-direction: column;
-  width: 400px; /* Adjust the width as needed */
-  margin: 0 auto;
-  border: 2px solid black; /* Outer border */
-  padding: 10px; /* Add padding to create space around the board */
-  box-sizing: border-box; /* Ensure padding doesn't affect the total width */
+  align-items: center;
+  margin-top: 20px;
+}
+
+.sudoku-board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
 }
 
 .sudoku-row {
@@ -15,74 +58,100 @@
 }
 
 .sudoku-cell {
-  width: 40px; /* Adjust the cell size as needed */
-  height: 40px; /* Adjust the cell size as needed */
+  width: 40px;
+  height: 40px;
   border: 1px solid #ddd;
-  font-size: 20px; /* Adjust the font size as needed */
-  text-align: center;
-  box-sizing: border-box;
-  outline: none;
-  cursor: pointer;
-  padding: 0;
-  margin: 0;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 
-.sudoku-cell.initial-number {
-  background-color: #333; /* Dark background color for initial numbers */
-  color: white; /* White text color for better contrast */
-}
-.sudoku-cell.incorrect-cell {
-  background-color: red; /* Red background color for incorrect cells */
-  color: white; /* White text color for better contrast */
-}
 .sudoku-cell input {
   width: 100%;
   height: 100%;
-  border: none;
   text-align: center;
+  border: none;
   font-size: 20px;
-  outline: none;
-  padding: 0;
-  margin: 0;
-  background: transparent; /* Ensure the input has a transparent background */
-  color: inherit; /* Inherit the text color from the parent */
 }
 
 .sudoku-cell input.multi-numbers {
-  font-size: 12px; /* Smaller font size for multiple numbers */
+  font-size: 14px;
+}
+
+.sudoku-cell.incorrect input {
+  background-color: red;
 }
 
 .top-border {
-  border-top: 2px solid black;
-  margin-top: 2px
+  border-top: 3px solid black;
 }
 
 .left-border {
-  border-left: 2px solid black;
-  margin-left: 2px
+  border-left: 3px solid black;
 }
 
 .bottom-border {
-  border-bottom: 2px solid black;
-  margin-bottom: 2px
+  border-bottom: 3px solid black;
 }
 
 .right-border {
-  border-right: 2px solid black;
-  margin-right: 2px
+  border-right: 3px solid black;
 }
 
-.check-button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
+@media screen and (max-width: 768px) {
+  .sudoku-cell {
+    width: 30px;
+    height: 30px;
+  }
+
+  .sudoku-cell input {
+    font-size: 18px;
+  }
+
+  .sudoku-cell input.multi-numbers {
+    font-size: 12px;
+  }
 }
 
-.message {
-  margin-top: 10px;
-  font-size: 18px;
+
+
+
+
+
+
+/* Sidebar styles */
+.sidebar {
+  height: 100%;
+  width: 250px;
+  position: fixed;
+  top: 0;
+  left: -250px; /* Hidden by default on mobile */
+  background-color: #111;
+  padding-top: 20px;
+  overflow-x: hidden;
+  transition: left 0.3s;
+  z-index: 1;
+}
+
+.sidebar a {
+  padding: 15px 25px;
+  text-decoration: none;
+  font-size: 25px;
+  color: white;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  background-color: #575757;
+}
+
+.sidebar.open {
+  left: 0;
+}
+
+@media screen and (min-width: 769px) {
+  .menu-icon {
+    display: none;
+  }
 }

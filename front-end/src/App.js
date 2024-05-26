@@ -5,7 +5,7 @@ import "./App.css";
 
 function App() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [difficulty, setDifficulty] = useState("easy");
+    const [difficulty, setDifficulty] = useState("EASY");
     const [key, setKey] = useState(0);
 
     const changeDifficulty = (newDifficulty) => {

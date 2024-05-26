@@ -9,8 +9,7 @@ app.use(cors());
 
 app.get('/generate', (req, res) => {
 
-        const { difficulty } = req.query; // Get difficulty from query parameters
-        console.log(difficulty)
+  const difficulty = req.query.difficulty || 'easy';// Get difficulty from query parameters
         const { puzzle, solution } = generateSudoku(difficulty);
         res.json({ puzzle, solution });
       });

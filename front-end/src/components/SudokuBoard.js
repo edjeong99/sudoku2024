@@ -13,7 +13,7 @@ const SudokuBoard = ({difficulty}) => {
     const fetchPuzzle = (difficulty) => {
         axios.get(`http://localhost:5000/generate?difficulty=${difficulty}`)
       .then(response => {
-        console.log(response)
+        console.log(response.data)
         const { puzzle, solution } = response.data;
         setPuzzle(puzzle);
         setSolution(solution);
@@ -123,7 +123,7 @@ const SudokuBoard = ({difficulty}) => {
           ))}
         </div>
         <button onClick={handleCheckClick}>Check Solution</button>
-        <button onClick={() => fetchPuzzle()}>New Game</button>
+        <button onClick={() => fetchPuzzle(difficulty)}>New Game</button>
         <div>{message}</div>
       </div>
     );

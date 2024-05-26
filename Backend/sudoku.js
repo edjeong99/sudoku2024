@@ -1,4 +1,10 @@
 
+const DifficultyNumber = Object.freeze({ 
+    EASY: 2, 
+    MEDIUM: 5, 
+    HARD: 10
+}); 
+
 const createEmptyBoard = () => Array.from({ length: 9 }, () => Array(9).fill(0));
 
 const isSafe = (board, row, col, num) => {
@@ -31,7 +37,8 @@ const isSafe = (board, row, col, num) => {
     return true;
   };
 
-  const removeNumbers = (board, count) => {
+  const removeNumbers = (board, difficulty) => {
+    let count = DifficultyNumber[difficulty]
     while (count > 0) {
       const row = Math.floor(Math.random() * 9);
       const col = Math.floor(Math.random() * 9);
@@ -47,7 +54,7 @@ const isSafe = (board, row, col, num) => {
     const puzzle = createEmptyBoard();
     solveSudoku(puzzle);
     const solution = puzzle.map(row => row.slice());
-    removeNumbers(puzzle, 2);
+    removeNumbers(puzzle, difficulty);
    // console.log(puzzle)
     return {  puzzle, solution };
   };

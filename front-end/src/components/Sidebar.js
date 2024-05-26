@@ -4,9 +4,9 @@ const Sidebar = ({ onDifficultyChange }) => {
   return (
     <div className="sidebar">
       <h2>Menu</h2>
-      <button onClick={() => onDifficultyChange('Easy')}>Easy</button>
-      <button onClick={() => onDifficultyChange('Medium')}>Medium</button>
-      <button onClick={() => onDifficultyChange('Hard')}>Hard</button>
+      <button onClick={() => onDifficultyChange('EASY')}>Easy</button>
+      <button onClick={() => onDifficultyChange('MEDIUM')}>Medium</button>
+      <button onClick={() => onDifficultyChange('HARD')}>Hard</button>
     </div>
   );
 };

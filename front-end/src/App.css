@@ -6,13 +6,8 @@
 
 #main {
   flex-grow: 1;
-  margin-left: 250px;
   padding: 16px;
   transition: margin-left 0.3s;
-}
-
-#main.sidebar-open {
-  margin-left: 0;
 }
 
 .menu-icon {
@@ -26,12 +21,16 @@
 }
 
 @media screen and (max-width: 768px) {
+  .menu-icon {
+    display: block;
+  }
+
   #main {
     margin-left: 0;
   }
 
-  .menu-icon {
-    display: block;
+  #main.sidebar-open {
+    margin-left: 250px;
   }
 }
 
@@ -125,7 +124,7 @@
   width: 250px;
   position: fixed;
   top: 0;
-  left: -250px; /* Hidden by default on mobile */
+  left: 0; /* Always visible on larger screens */
   background-color: #111;
   padding-top: 20px;
   overflow-x: hidden;
@@ -146,12 +145,22 @@
   background-color: #575757;
 }
 
-.sidebar.open {
-  left: 0;
+@media screen and (max-width: 768px) {
+  .sidebar {
+    left: -250px; /* Hidden by default on mobile */
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
 }
 
 @media screen and (min-width: 769px) {
   .menu-icon {
     display: none;
+  }
+
+  #main {
+    margin-left: 250px;
   }
 }

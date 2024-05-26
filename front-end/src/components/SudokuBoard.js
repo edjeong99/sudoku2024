@@ -4,19 +4,25 @@ import axios from 'axios';
 
 
 const SudokuBoard = () => {
-    const [userInput, setUserInput] = useState(Array(9).fill('').map(() => Array(9).fill('')));
-    const [solution, setSolution] = useState(Array(9).fill('').map(() => Array(9).fill(0))); // Assuming you have the solution array
+    const [puzzle, setPuzzle] = useState([]);
+    const [solution, setSolution] = useState([]);
+    const [userInput, setUserInput] = useState([]);
     const [message, setMessage] = useState('');
     const [incorrectCells, setIncorrectCells] = useState([]);
   
     useEffect(() => {
-      fetch('http://localhost:5000/generate')
-        .then(response => response.json())
-        .then(data => {
-          setUserInput(data.puzzle);
-          setSolution(data.solution);
-        });
-    }, []);
+        axios.get('http://localhost:5000/generate')
+      .then(response => {
+        console.log(response)
+        const { puzzle, solution } = response.data;
+        setPuzzle(puzzle);
+        setSolution(solution);
+        setUserInput(puzzle.map(row => row.map(cell => (cell !== 0 ? cell : ''))));
+      })
+      .catch(error => {
+        console.error('There was an error fetching the puzzle!', error);
+      });
+  }, []);
   
     const handleInputChange = (e, row, col) => {
       const value = e.target.value.replace(/[^1-9]/g, ''); // Only allow digits 1-9
@@ -45,12 +51,12 @@ const SudokuBoard = () => {
         for (let j = 0; j < 9; j++) {
           const userInputValue = userInput[i][j];
           const solutionValue = solution[i][j];
-          const originalValue = solution[i][j]; // Assuming solution is the initial puzzle
+          const originalValue = puzzle[i][j]; // Assuming solution is the initial puzzle
   
           if (originalValue === 0) {
-            if (userInputValue === '') {
+            if (userInputValue === '' || userInputValue.length > 1) {
               emptyCount++;
-            } else if (userInputValue.length > 1 || userInputValue !== solutionValue.toString()) {
+            } else if (userInputValue !== solutionValue.toString()) {
               wrongCount++;
               incorrectCells.push([i, j]);
             } else {
@@ -85,7 +91,7 @@ const SudokuBoard = () => {
     return (
       <div className="sudoku-container">
         <div className="sudoku-board">
-          {userInput.map((row, rowIndex) => (
+          {puzzle.map((row, rowIndex) => (
             <div key={rowIndex} className="sudoku-row">
               {row.map((cell, colIndex) => {
                 const isIncorrect = incorrectCells.some(([i, j]) => i === rowIndex && j === colIndex);
@@ -96,9 +102,10 @@ const SudokuBoard = () => {
                   >
                     <input
                       type="text"
-                      value={cell}
+                      value={userInput[rowIndex][colIndex] !== 0 ? userInput[rowIndex][colIndex] : ''}
+                      className={userInput[rowIndex][colIndex] && userInput[rowIndex][colIndex].length > 1 ? 'multi-numbers' : ''}
                       onChange={(e) => handleInputChange(e, rowIndex, colIndex)}
-                      readOnly={solution[rowIndex][colIndex] !== 0}
+                      disabled={cell !== 0}
                     />
                   </div>
                 );

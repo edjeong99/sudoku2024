@@ -44,11 +44,12 @@ const isSafe = (board, row, col, num) => {
 
 
   const generateSudoku = () => {
-    const board = createEmptyBoard();
-    solveSudoku(board);
-    const solution = board.map(row => row.slice());
-    removeNumbers(board, 2);
-    return { puzzle: board, solution };
+    const puzzle = createEmptyBoard();
+    solveSudoku(puzzle);
+    const solution = puzzle.map(row => row.slice());
+    removeNumbers(puzzle, 2);
+    console.log(puzzle)
+    return {  puzzle, solution };
   };
 
-module.exports = { generateSudoku, solveSudoku };
+module.exports = { generateSudoku };

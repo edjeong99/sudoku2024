@@ -5,19 +5,15 @@ import "./App.css";
 
 function App() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
-    const showSidebar = () => {
-        setSidebarOpen(true);
-      };
-
-      const closeSidebar = () => {
-        setSidebarOpen(false);
+    const toggleSidebar = () => {
+        setSidebarOpen(!sidebarOpen);
       };
 
   return (
  <div className="app-container">
-      <Sidebar sidebarOpen={sidebarOpen} closeSidebar={closeSidebar} />
+      <Sidebar sidebarOpen={sidebarOpen} />
       <div id="main" className={sidebarOpen ? 'sidebar-open' : ''}>
-        <button className="menu-icon" onClick={showSidebar}>
+        <button className="menu-icon" onClick={toggleSidebar}>
           &#9776;
         </button>
         <SudokuBoard />

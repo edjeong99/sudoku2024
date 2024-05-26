@@ -8,8 +8,9 @@ const PORT = 5000;
 app.use(cors());
 
 app.get('/generate', (req, res) => {
-    const puzzle = generateSudoku();
-    res.json(puzzle);
+    const { puzzle, solution } = generateSudoku();
+    console.log({ puzzle, solution })
+    res.json({ puzzle, solution });
 });
 
 app.listen(PORT, () => {

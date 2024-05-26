@@ -3,27 +3,35 @@ import axios from 'axios';
 
 
 
-const SudokuBoard = () => {
+const SudokuBoard = ({difficulty}) => {
     const [puzzle, setPuzzle] = useState([]);
     const [solution, setSolution] = useState([]);
     const [userInput, setUserInput] = useState([]);
     const [message, setMessage] = useState('');
     const [incorrectCells, setIncorrectCells] = useState([]);
   
-    useEffect(() => {
-        axios.get('http://localhost:5000/generate')
+    const fetchPuzzle = (difficulty) => {
+        axios.get(`http://localhost:5000/generate?difficulty=${difficulty}`)
       .then(response => {
         console.log(response)
         const { puzzle, solution } = response.data;
         setPuzzle(puzzle);
         setSolution(solution);
         setUserInput(puzzle.map(row => row.map(cell => (cell !== 0 ? cell : ''))));
+        setMessage('');
+        setIncorrectCells([]);
       })
       .catch(error => {
         console.error('There was an error fetching the puzzle!', error);
       });
-  }, []);
+  };
   
+  useEffect(() => {
+    console.log(difficulty)
+    fetchPuzzle(difficulty); // Default difficulty
+  }, [difficulty]);
+
+
     const handleInputChange = (e, row, col) => {
       const value = e.target.value.replace(/[^1-9]/g, ''); // Only allow digits 1-9
       const newBoard = userInput.map((r, rowIndex) =>
@@ -90,6 +98,7 @@ const SudokuBoard = () => {
   
     return (
       <div className="sudoku-container">
+        <div>Difficulty Level : {difficulty}</div>
         <div className="sudoku-board">
           {puzzle.map((row, rowIndex) => (
             <div key={rowIndex} className="sudoku-row">
@@ -114,6 +123,7 @@ const SudokuBoard = () => {
           ))}
         </div>
         <button onClick={handleCheckClick}>Check Solution</button>
+        <button onClick={() => fetchPuzzle()}>New Game</button>
         <div>{message}</div>
       </div>
     );

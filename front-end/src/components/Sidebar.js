@@ -1,12 +1,13 @@
 import React from 'react';
 
-const Sidebar = ({ sidebarOpen }) => {
+const Sidebar = ({ onDifficultyChange }) => {
   return (
-    <div id="mySidebar" className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
-    <a href="#">Choose Difficulty</a>
-    <a href="#">User Board</a>
-    <a href="#">Download App</a>
-  </div>
+    <div className="sidebar">
+      <h2>Menu</h2>
+      <button onClick={() => onDifficultyChange('Easy')}>Easy</button>
+      <button onClick={() => onDifficultyChange('Medium')}>Medium</button>
+      <button onClick={() => onDifficultyChange('Hard')}>Hard</button>
+    </div>
   );
 };
 export default Sidebar;

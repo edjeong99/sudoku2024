@@ -125,7 +125,7 @@
   position: fixed;
   top: 0;
   left: 0; /* Always visible on larger screens */
-  background-color: #111;
+  background-color: turquoise;
   padding-top: 20px;
   overflow-x: hidden;
   transition: left 0.3s;
@@ -143,6 +143,18 @@
 
 .sidebar a:hover {
   background-color: #575757;
+}
+.sidebar h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+.sidebar button {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 768px) {

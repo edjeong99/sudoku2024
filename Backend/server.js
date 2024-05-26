@@ -8,10 +8,13 @@ const PORT = 5000;
 app.use(cors());
 
 app.get('/generate', (req, res) => {
-    const { puzzle, solution } = generateSudoku();
-    console.log({ puzzle, solution })
-    res.json({ puzzle, solution });
-});
+
+        const { difficulty } = req.query; // Get difficulty from query parameters
+        console.log(difficulty)
+        const { puzzle, solution } = generateSudoku(difficulty);
+        res.json({ puzzle, solution });
+      });
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

@@ -43,12 +43,12 @@ const isSafe = (board, row, col, num) => {
   };
 
 
-  const generateSudoku = () => {
+  const generateSudoku = (difficulty) => {
     const puzzle = createEmptyBoard();
     solveSudoku(puzzle);
     const solution = puzzle.map(row => row.slice());
     removeNumbers(puzzle, 2);
-    console.log(puzzle)
+   // console.log(puzzle)
     return {  puzzle, solution };
   };
 

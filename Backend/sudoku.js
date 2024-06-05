@@ -67,24 +67,40 @@ const fillBoard = (board) => {
   return true;
 };
 
-  const removeNumbers = (board, difficulty) => {
-    let count = DifficultyNumber[difficulty]
-    while (count > 0) {
-      const row = Math.floor(Math.random() * 9);
-      const col = Math.floor(Math.random() * 9);
-      if (board[row][col] !== 0) {
-        board[row][col] = 0;
-        count--;
-      }
+const removeNumbers = (board, emptyCells) => {
+  while (emptyCells > 0) {
+    const row = Math.floor(Math.random() * 9);
+    const col = Math.floor(Math.random() * 9);
+    if (board[row][col] !== 0) {
+      board[row][col] = 0;
+      emptyCells--;
     }
-  };
+  }
+  return board;
+};
 
 
-  const generateSudoku = (difficulty) => {
+
+  const generateSudoku = (difficulty = 'easy') => {
+    let emptyCells;
+    switch (difficulty) {
+      case 'easy':
+        emptyCells = 40;
+        break;
+      case 'medium':
+        emptyCells = 50;
+        break;
+      case 'hard':
+        emptyCells = 60;
+        break;
+      default:
+        emptyCells = 40;
+    }
+
     const solution = generateEmptyBoard();
     fillBoard(solution); // Use fillBoard instead of solveBoard for randomization
     const puzzle = JSON.parse(JSON.stringify(solution)); // Deep copy
-    removeNumbers(puzzle, difficulty);
+    removeNumbers(puzzle, emptyCells);
   
     return { puzzle, solution };
   };

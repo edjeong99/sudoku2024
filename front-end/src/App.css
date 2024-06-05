@@ -112,9 +112,14 @@
   }
 }
 
+.hint-message {
+  margin-top: 10px;
+  color: #d9534f;
+}
 
-
-
+.sudoku-cell.highlighted {
+  background-color: #ffeb3b !important;
+}
 
 
 

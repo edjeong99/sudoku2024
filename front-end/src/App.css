@@ -131,7 +131,7 @@
   top: 0;
   left: 0; /* Always visible on larger screens */
   background-color: turquoise;
-  padding-top: 20px;
+  padding: 20px;
   overflow-x: hidden;
   transition: left 0.3s;
   z-index: 1;
@@ -151,17 +151,25 @@
 }
 .sidebar h2 {
   font-size: 24px;
+  margin-bottom: 20px;
+}
+.sidebar h3 {
   margin-bottom: 10px;
 }
+
 .sidebar button {
   display: block;
   width: 100%;
-  margin-bottom: 10px;
+  margin: 10px 0;
   padding: 10px;
   font-size: 16px;
   cursor: pointer;
 }
-
+.sidebar input {
+  display: block;
+  margin: 10px 0;
+  padding: 5px;
+}
 @media screen and (max-width: 768px) {
   .sidebar {
     left: -250px; /* Hidden by default on mobile */
@@ -180,4 +188,44 @@
   #main {
     margin-left: 250px;
   }
+}
+
+
+/* MODAL */
+.modal {
+
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the modal horizontally and vertically */
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Box shadow for a subtle depth effect */
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  color: #888;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }

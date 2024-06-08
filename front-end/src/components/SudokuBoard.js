@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 
-
 const SudokuBoard = ({difficulty}) => {
     const [puzzle, setPuzzle] = useState([]);
     const [solution, setSolution] = useState([]);

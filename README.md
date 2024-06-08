@@ -9,3 +9,7 @@ This is a personal project to build and deploy Sudoko puzzle.
 ReactJS
 NodeJS
 
+
+- Command to start program
+  FronEnd : pm start
+  Backend : nodemon server 

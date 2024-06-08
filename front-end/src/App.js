@@ -40,6 +40,7 @@ function App() {
         <button className="menu-icon" onClick={toggleSidebar}>
           &#9776;
         </button>
+
         <SudokuBoard difficulty={difficulty} key={key} />
       </div>
     </div>

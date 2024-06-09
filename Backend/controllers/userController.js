@@ -1,4 +1,4 @@
-const User = require('../util/userModel');
+const User = require('../models/userModel');
 
 const createUserProfile = async (req, res) => {
   const { uid, email, displayName } = req.body;

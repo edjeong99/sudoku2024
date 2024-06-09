@@ -112,6 +112,11 @@
   }
 }
 
+
+
+.hint-cell{
+  background-color: bisque;
+}
 .hint-message {
   margin-top: 10px;
   color: #d9534f;

@@ -10,6 +10,7 @@ const SudokuBoard = ({difficulty}) => {
     const [incorrectCells, setIncorrectCells] = useState([]);
     const [hint, setHint] = useState(null);
     const [highlightedCell, setHighlightedCell] = useState(null);
+    const [hintCells, setHintCells] = useState(new Set()); // State to track hint cells
 
   
     useEffect(() => {
@@ -35,20 +36,24 @@ const SudokuBoard = ({difficulty}) => {
   };
   
 
-    const handleInputChange = (e, row, col) => {
-      const value = e.target.value.replace(/[^1-9]/g, ''); // Only allow digits 1-9
+    const handleInputChange = (e, row, col, num) => {
+      console.log(e?.target)
+      const value = e ? e.target.value.replace(/[^1-9]/g, '') : num
+      console.log(value)
+     
       const newBoard = userInput.map((r, rowIndex) =>
         r.map((cell, colIndex) => (rowIndex === row && colIndex === col ? (value !== '' ? value : '') : cell))
       );
       setUserInput(newBoard);
   
       // Apply multi-numbers class if input contains multiple digits
-      const inputElement = e.target;
+      if(e){
       if (value.length > 1) {
-        inputElement.classList.add('multi-numbers');
+        e.target.classList.add('multi-numbers');
       } else {
-        inputElement.classList.remove('multi-numbers');
+        e.target.classList.remove('multi-numbers');
       }
+    }
     };
   
     const handleCheckClick = () => {
@@ -57,6 +62,7 @@ const SudokuBoard = ({difficulty}) => {
       let emptyCount = 0;
       const incorrectCells = [];
   
+      console.log(userInput)
       // Calculate the counts
       for (let i = 0; i < 9; i++) {
         for (let j = 0; j < 9; j++) {
@@ -108,7 +114,11 @@ const SudokuBoard = ({difficulty}) => {
         const hint = response.data;
         console.log(hint)
         setHint(hint);
+        handleInputChange(null, hint.row, hint.col, hint.num.toString())
         setHighlightedCell({ row: hint.row, col: hint.col });
+        setHintCells(new Set([...hintCells, `${hint.row}-${hint.col}`] ));
+console.log(hintCells)
+
         setTimeout(() => {
           setHighlightedCell(null);
         }, 5000);
@@ -140,6 +150,7 @@ const SudokuBoard = ({difficulty}) => {
                                    ${cell !== 0 ? 'initial' : ''} 
                                    ${highlightedCell && highlightedCell.row === rowIndex && highlightedCell.col === colIndex ? 
                                   'highlighted' : ''} 
+                                  ${hintCells.has(`${rowIndex}-${colIndex}`) ? 'hint-cell' : ''}
                                    ${userInput[rowIndex][colIndex] && userInput[rowIndex][colIndex].length > 1 ? 'multi-numbers' : ''}`}
                       onChange={(e) => handleInputChange(e, rowIndex, colIndex)}
                       disabled={cell !== 0}
@@ -153,11 +164,7 @@ const SudokuBoard = ({difficulty}) => {
         <button onClick={handleCheckClick}>Check Solution</button>
         <button onClick={() => fetchPuzzle(difficulty)}>New Game</button>
         <button onClick={requestHint}>Hint</button>
-        {hint && (
-        <div className="hint-message">
-          Hint: Cell at ({hint.row + 1}, {hint.col + 1}) can be {hint.num}.
-        </div>
-      )}
+      
         {message && <div className="hint-message">{message}</div>}
       </div>
     );

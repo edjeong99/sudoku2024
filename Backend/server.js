@@ -3,12 +3,20 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const { generateSudoku, solveSudoku } = require('./sudoku');
 const { findNextHint } = require('./findHint');
+const connectDB = require('./util/db');
+const { createUserProfile, getUserProfile, updateUserProfile } = require('./controller/userController');
 
 const app = express();
 const PORT = 5000;
 
 app.use(cors());
 app.use(bodyParser.json());
+
+connectDB();
+
+app.post('/user', createUserProfile);
+app.get('/user/:uid', getUserProfile);
+app.put('/user/:uid', updateUserProfile);
 app.get('/generate', (req, res) => {
 
   const difficulty = req.query.difficulty || 'easy';// Get difficulty from query parameters

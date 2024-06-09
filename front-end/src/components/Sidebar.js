@@ -1,20 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect  } from 'react';
 import { auth } from '../util/firebase';
 import { signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import Modal from '../util/modal.js';
-
+import { createUserProfile, getUserProfile } from '../util/userProfile';
 
 const Sidebar = ({ onDifficultyChange, user, setUser }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [userProfile, setUserProfile] = useState(null);
+
+  useEffect(() => {
+    if (user) {
+      const fetchUserProfile = async () => {
+        const profile = await getUserProfile(user.uid);
+        setUserProfile(profile);
+      };
+      fetchUserProfile();
+    }
+  }, [user]);
 
   const handleGoogleLogin = async () => {
     const provider = new GoogleAuthProvider();
     try {
       const result = await signInWithPopup(auth, provider);
       setUser(result.user);
+      await createUserProfile(result.user);
       setShowModal(false); // Close the modal after successful login
     } catch (error) {
       console.error('Login failed:', error);
@@ -25,6 +37,7 @@ const Sidebar = ({ onDifficultyChange, user, setUser }) => {
     try {
       const result = await createUserWithEmailAndPassword(auth, email, password);
       setUser(result.user);
+      await createUserProfile(result.user);
       setShowModal(false); // Close the modal after successful login
     } catch (error) {
       console.error('Email signup failed:', error);
@@ -35,6 +48,7 @@ const Sidebar = ({ onDifficultyChange, user, setUser }) => {
     try {
       const result = await signInWithEmailAndPassword(auth, email, password);
       setUser(result.user);
+      await createUserProfile(result.user);
       setShowModal(false);
     } catch (error) {
       console.error('Email login failed:', error);
